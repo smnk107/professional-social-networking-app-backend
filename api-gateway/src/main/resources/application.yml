@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: api-gateway
+
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - StripPrefix=2
+            - AddRequestHeader=Content-Type, application/json
+
+        - id: posts-service
+          uri: lb://POSTS-SERVICE
+          predicates:
+            - Path=/api/v1/posts/**
+          filters:
+            - StripPrefix=2
+
+#        - id: connections-service
+#          uri: lb://CONNECTIONS-SERVICE
+#          predicates:
+#            - Path=/api/v1/connections/**
+#          filters:
+#            - StripPrefix=2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9012/eureka
+server:
+  port: 9013
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
