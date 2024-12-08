@@ -1,5 +1,6 @@
 package com.smnk107.linkedIn.posts_service.controllers;
 
+import com.smnk107.linkedIn.posts_service.auth.UserContextHolder;
 import com.smnk107.linkedIn.posts_service.services.PostLikeService;
 import com.smnk107.linkedIn.posts_service.services.PostService;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,16 @@ public class LikesController {
     @PostMapping("/{postId}")
     void likePost(@PathVariable Long postId)
     {
-      postLikeService.likePost(postId,1L);
+
+        long userId = UserContextHolder.getCurrentUserid();
+        postLikeService.likePost(postId,userId);
     }
 
     @DeleteMapping("/{postId}")
     void unLikePost(@PathVariable Long postId)
     {
-        postLikeService.unlikeLikePost(postId,1L);
+        long userId = UserContextHolder.getCurrentUserid();
+        postLikeService.unlikeLikePost(postId,userId);
     }
 
 

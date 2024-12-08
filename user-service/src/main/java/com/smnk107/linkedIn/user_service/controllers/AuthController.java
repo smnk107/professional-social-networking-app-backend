@@ -6,10 +6,12 @@ import com.smnk107.linkedIn.user_service.dto.UserDto;
 import com.smnk107.linkedIn.user_service.entity.User;
 import com.smnk107.linkedIn.user_service.services.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,12 +19,18 @@ import java.util.List;
 public class AuthController {
 
     private final AuthService authService;
+    private final ModelMapper modelMapper;
 
     @GetMapping("/getAllUser")
-    String getAllUser()
+    ResponseEntity<List<UserDto>> getAllUser()
     {
+        List<UserDto> list = authService.getAllUser()
+                .getBody()
+                .stream()
+                .map(elem->modelMapper.map(elem,UserDto.class))
+                .collect(Collectors.toList());
 
-        return "Hello boss !!";
+        return  ResponseEntity.ok(list);
     }
     @PostMapping("/signup")
     ResponseEntity<UserDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto)
@@ -31,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<String> signUp(@RequestBody LogInDto logInDto)
+    ResponseEntity<String> logIn(@RequestBody LogInDto logInDto)
     {
         return authService.login(logInDto);
     }

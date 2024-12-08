@@ -1,0 +1,14 @@
+
+kafka.topic:
+
+  request-sent-topic: request-sent-topic
+  request-received-topic: request-received-topic
+  request-accepted-topic: request-accepted-topic
+  request-rejected-topic: request-rejected-topic
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
