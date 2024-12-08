@@ -16,8 +16,8 @@ With a microservices architecture and robust integrations, this platform ensures
 ## **🛠️ Tech Stack**  
 ### **Core Technologies**  
 - **📚 Languages:** Java  
-- **💾 Databases:** PostgreSQL, Neo4j  
-- **🔍 Query Language:** Cypher Query Language  
+- **💾 Databases:** Postgres, Neo4j  
+- **🔍 Query Language:** postgresSQL, Cypher Query Language  
 
 ### **Frameworks & Tools**  
 - **⚙️ Backend:** Spring Boot, Spring Security with JWT, Spring Data JPA  
