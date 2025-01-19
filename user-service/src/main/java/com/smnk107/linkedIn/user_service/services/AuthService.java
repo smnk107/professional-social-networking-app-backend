@@ -1,5 +1,6 @@
 package com.smnk107.linkedIn.user_service.services;
 
+import com.smnk107.linkedIn.user_service.clients.ConnectionClient;
 import com.smnk107.linkedIn.user_service.dto.LogInDto;
 import com.smnk107.linkedIn.user_service.dto.SignUpRequestDto;
 import com.smnk107.linkedIn.user_service.dto.UserDto;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class AuthService {
     private final ModelMapper modelMapper;
     private final PasswordUtil passwordUtil;
     private final JwtService jwtService;
+    private final ConnectionClient connectionClient;
+
+    @Transactional
     public ResponseEntity<UserDto> signUp(SignUpRequestDto signUpRequestDto)
     {
         String email = signUpRequestDto.getEmail();
@@ -34,6 +39,16 @@ public class AuthService {
         user.setPassword(passwordUtil.hashPassword(password));
 
         User savedUser = userRepository.save(user);
+
+        com.smnk107.linkedIn.connections_service.entity.UserDto
+                userDto = com.smnk107.linkedIn.connections_service.entity.UserDto.builder()
+                .userId(savedUser.getId())
+                .name(savedUser.getName())
+                .build();
+
+        connectionClient.createNewPerson(userDto);
+
+        userDto.setUserId(savedUser.getId());
 
         return ResponseEntity.ok(modelMapper.map(savedUser,UserDto.class));
     }

@@ -43,7 +43,7 @@ public class JwtService {
             System.out.println("Exception " +e.getMessage());
         }
 
-        //System.out.println(Integer.valueOf(claims.getSubject()));
-        return null;//Long.valueOf(claims.getSubject());
+        System.out.println(Integer.valueOf(claims.getSubject()));
+        return Long.valueOf(claims.getSubject());
     }
 }

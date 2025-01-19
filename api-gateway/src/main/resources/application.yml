@@ -41,7 +41,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9012/eureka
+      defaultZone: http://discovery-service:9012/eureka
   instance:
     hostname=localhost:
 server:
